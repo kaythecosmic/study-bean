@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Onest } from "next/font/google";
 import "./globals.css";
 
-const onest = Onest({ subsets: ["latin"], weight: ['100', '200', '300'] });
+const onest = Onest({ subsets: ["latin"], weight: ['500'] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
