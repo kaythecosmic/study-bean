@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Onest } from "next/font/google";
 import "./globals.css";
+import { cn } from "@/lib/utils";
 
 const onest = Onest({ subsets: ["latin"], weight: ['500'] });
 
@@ -16,7 +17,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={onest.className}>{children}</body>
+      <body className={cn("min-h-screen antialiased grainy", onest.className)}>
+        {children}
+      </body>
     </html>
   );
 }
