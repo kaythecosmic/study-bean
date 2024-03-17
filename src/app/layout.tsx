@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn("min-h-screen antialiased grainy", onest.className)}>
+      <body className={cn("min-h-screen antialiased", onest.className)}>
         {children}
       </body>
     </html>
