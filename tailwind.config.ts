@@ -41,6 +41,7 @@ const config = {
           foreground: "hsl(var(--card-foreground))",
         },
         'text': {
+          0:'var(--text)',
           50: 'var(--text-50)',
           100: 'var(--text-100)',
           200: 'var(--text-200)',
@@ -51,7 +52,7 @@ const config = {
           700: 'var(--text-700)',
           800: 'var(--text-800)',
           900: 'var(--text-900)',
-          950: 'var(--text-950)',
+          950: 'var(--text-950)'
         },
         // 'background': {
         //   50: 'var(--background-50)',
@@ -67,6 +68,7 @@ const config = {
         //   950: 'var(--background-950)',
         // },
         'primary': {
+          0: 'var(--primary)',
           50: 'var(--primary-50)',
           100: 'var(--primary-100)',
           200: 'var(--primary-200)',
@@ -80,6 +82,7 @@ const config = {
           950: 'var(--primary-950)',
         },
         'secondary': {
+          0: 'var(--secondary)',
           50: 'var(--secondary-50)',
           100: 'var(--secondary-100)',
           200: 'var(--secondary-200)',
@@ -93,6 +96,7 @@ const config = {
           950: 'var(--secondary-950)',
         },
         'accent': {
+          0: 'var(--accent)',
           50: 'var(--accent-50)',
           100: 'var(--accent-100)',
           200: 'var(--accent-200)',
