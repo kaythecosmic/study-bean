@@ -107,10 +107,10 @@ const PomodoroPage = () => {
     }, [time, isPaused])
 
     return (
-        <MaxWidthWrapper className="h-[100dvh] w-[80vw] flex flex-col md:flex-row items-center justify-center gap-5">
-            <div className='h-2/3 flex flex-col items-center justify-center p-10 md:w-full border rounded-md'>
+        <MaxWidthWrapper className="h-[100dvh] w-[80vw] flex flex-col 2xl:flex-row items-center justify-center gap-5">
+            <div className='w-full flex flex-col items-center justify-center p-10 md:w-full 2xl:h-2/3 border rounded-md'>
                 <h1 className=' text-4xl mb-10'>Pomodoro Session</h1>
-                <div className="text-6xl font-semibold md:text-6xl lg:text-7xl 2xl:text-9xl">
+                <div className="text-5xl font-semibold md:text-6xl lg:text-7xl 2xl:text-8xl min-[1640px]:text-9xl">
                     {hours > 9 ? hours : "0" + hours} : {minutes > 9 ? minutes : "0" + minutes} : {seconds > 9 ? seconds : "0" + seconds}
                 </div>
 
@@ -133,7 +133,8 @@ const PomodoroPage = () => {
                     </IconButton> : <></>}
                 </section>
             </div>
-            <div className='h-auto w-full flex flex-col items-center justify-start p-5 border rounded-md lg:h-2/3 lg:w-1/3'>
+            
+            <div className='h-auto w-full flex flex-col items-center justify-start p-5 border rounded-md 2xl:h-2/3 2xl:w-1/3'>
                 <h1 className='text-2xl mb-5 w-full font-bold'>Preset Timers</h1>
 
                 {
