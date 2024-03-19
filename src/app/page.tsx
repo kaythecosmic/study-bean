@@ -1,4 +1,6 @@
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+import { ArrowTopRightIcon } from "@radix-ui/react-icons";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -17,8 +19,11 @@ export default function Home() {
         </div>
       </div>
 
-      <MaxWidthWrapper>
-        <h1>StudyBean.</h1>
+      <MaxWidthWrapper className="h-screen">
+        <div className="h-full flex flex-col gap-5 items-center justify-center">
+          <h1 className="w-full text-6xl font-extrabold text-center md:text-7xl lg:text-9xl">StudyBean.</h1>
+          <Link href="/pomodoro" className="mt-10 flex items-center justify-center gap-2 text-xl font-bold bg-accent-0 p-2 px-4 rounded-md text-white">Try Pomodoro<ArrowTopRightIcon className=" scale-[1.4]" /></Link>
+        </div>
       </MaxWidthWrapper>
     </>
   );
