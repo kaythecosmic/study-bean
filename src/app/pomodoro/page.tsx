@@ -2,7 +2,7 @@
 import IconButton from '@/components/IconButton'
 import MaxWidthWrapper from '@/components/MaxWidthWrapper'
 import React, { useEffect, useState } from 'react'
-import { RotateCcw, Pause, Play } from 'lucide-react'
+import { RotateCcw, Pause, Play, Plus } from 'lucide-react'
 
 const PomodoroPage = () => {
 
@@ -10,6 +10,12 @@ const PomodoroPage = () => {
         hours: number;
         minutes: number;
         seconds: number;
+    }
+
+    const presetTimes: { [key: string]: TimeState } = {
+        "00-02-50": { hours: 0, minutes: 2, seconds: 50 },
+        "00-03-20": { hours: 0, minutes: 3, seconds: 20 },
+        "00-00-20": { hours: 0, minutes: 0, seconds: 20 },
     }
 
     const [isRunning, setIsRunning] = useState<boolean>(false);
@@ -23,28 +29,53 @@ const PomodoroPage = () => {
     const [hours, setHours] = useState<number>(0);
     const [minutes, setMinutes] = useState<number>(0);
     const [seconds, setSeconds] = useState<number>(0);
+    const [errorMessage, setErrorMessage] = useState<string>("")
 
     function handlePlay() {
-        setIsRunning(true);
-        setIsPaused(false);
         var newTime = {
             hours: hours,
             minutes: minutes,
             seconds: seconds
         }
-        setTime(newTime);
+        if (newTime.hours == 0 &&
+            newTime.minutes == 0 &&
+            newTime.seconds == 0) {
+            setErrorMessage("Please set a valid timer amount.")
+        } else {
+            setErrorMessage("")
+            var hourBox = document.getElementById("textbox-hours") as HTMLInputElement;
+            var minuteBox = document.getElementById("textbox-minutes") as HTMLInputElement;
+            var secondBox = document.getElementById("textbox-seconds") as HTMLInputElement;
+
+            hourBox.value = "";
+            minuteBox.value = "";
+            secondBox.value = "";
+
+            setIsRunning(true);
+            setIsPaused(false);
+            setTime(newTime);
+        }
+
     }
 
     function handleReset() {
         setIsRunning(false);
         setIsPaused(true);
-        setHours(0);
-        setMinutes(0);
-        setSeconds(0);
+        setHours(time.hours);
+        setMinutes(time.minutes);
+        setSeconds(time.seconds);
     }
 
     function handlePause() {
         setIsPaused(true);
+    }
+
+    function usePresetTimer(preset: string) {
+        const timeArray = preset.split('-');
+        const [getHours, getMinutes, getSeconds] = timeArray
+        setHours(parseInt(getHours));
+        setMinutes(parseInt(getMinutes));
+        setSeconds(parseInt(getSeconds));
     }
 
     useEffect(() => {
@@ -59,6 +90,7 @@ const PomodoroPage = () => {
                 if (timeLeft < 0) {
                     clearInterval(setIntervalID);
                     setIsRunning(false);
+                    setIsPaused(true);
                 }
                 else {
                     setHours(newHours);
@@ -75,28 +107,48 @@ const PomodoroPage = () => {
     }, [time, isPaused])
 
     return (
-        <MaxWidthWrapper className="h-[100dvh] flex flex-col items-center justify-center">
-            <div className='h-2/3 flex flex-col items-center justify-center p-10 w-full border rounded-md'>
+        <MaxWidthWrapper className="h-[100dvh] w-[80vw] flex flex-col md:flex-row items-center justify-center gap-5">
+            <div className='h-2/3 flex flex-col items-center justify-center p-10 md:w-full border rounded-md'>
                 <h1 className=' text-4xl mb-10'>Pomodoro Session</h1>
-                <div className="text-6xl font-semibold md:text-7xl lg:text-8xl xl:text-9xl">
+                <div className="text-6xl font-semibold md:text-6xl lg:text-7xl 2xl:text-9xl">
                     {hours > 9 ? hours : "0" + hours} : {minutes > 9 ? minutes : "0" + minutes} : {seconds > 9 ? seconds : "0" + seconds}
                 </div>
 
                 <section className='mx-auto font-bold mt-16 w-1/2 flex flex-row items-center justify-center gap-[15px]'>
-                    <input className='p-3 border rounded-md text-center focus:outline-none font-medium' type="number" name="hours" max={12} min={0} placeholder='HH' id="hours" onChange={(e) => { setHours(parseInt(e.target.value)) }} /> :
-                    <input className='p-3 border rounded-md text-center focus:outline-none font-medium' type="number" name="hours" max={59} min={0} placeholder='MM' id="hours" onChange={(e) => { setMinutes(parseInt(e.target.value)) }} /> :
-                    <input className='p-3 border rounded-md text-center focus:outline-none font-medium' type="number" name="hours" max={59} min={0} placeholder='SS' id="hours" onChange={(e) => { setSeconds(parseInt(e.target.value)) }} />
+                    <input className='p-3 border rounded-md text-center focus:outline-none font-medium' type="number" name="hours" max={12} min={0} placeholder='HH' id="textbox-hours" onChange={(e) => { setHours(parseInt(e.target.value ? e.target.value : "0")) }} /> :
+                    <input className='p-3 border rounded-md text-center focus:outline-none font-medium' type="number" name="hours" max={59} min={0} placeholder='MM' id="textbox-minutes" onChange={(e) => { setMinutes(parseInt(e.target.value ? e.target.value : "0")) }} /> :
+                    <input className='p-3 border rounded-md text-center focus:outline-none font-medium' type="number" name="hours" max={59} min={0} placeholder='SS' id="textbox-seconds" onChange={(e) => { setSeconds(parseInt(e.target.value ? e.target.value : "0")) }} />
                 </section>
 
-                <section className='mx-auto mt-10 w-1/3 flex flex-row items-center justify-evenly gap-[15px]'>
+                <section className='mx-auto mt-10 w-1/3 flex justify-center items-center'>
+                    <span className='text-center text-red-700 font-medium'> {errorMessage} </span>
+                </section>
+
+                <section className='mx-auto mt-5 w-1/3 flex flex-row items-center justify-evenly gap-[15px]'>
                     <IconButton label={isPaused ? "Start" : "Pause"} onclick={isPaused ? () => handlePlay() : () => handlePause()}>
                         {isPaused ? <Play /> : <Pause />}
                     </IconButton>
                     {isRunning ? <IconButton label={"Reset"} onclick={() => handleReset()}>
                         <RotateCcw />
                     </IconButton> : <></>}
-
                 </section>
+            </div>
+            <div className='h-auto w-full flex flex-col items-center justify-start p-5 border rounded-md lg:h-2/3 lg:w-1/3'>
+                <h1 className='text-2xl mb-5 w-full font-bold'>Preset Timers</h1>
+
+                {
+                    Object.keys(presetTimes).map((key) => (
+                        <div key={key} className='w-full border mt-2 p-2 flex flex-row justify-between items-center rounded-md'>
+                            <span className='font-bold text-xl'>
+                                {presetTimes[key].hours > 9 ? presetTimes[key].hours : "0" + presetTimes[key].hours} : {presetTimes[key].minutes > 9 ? presetTimes[key].minutes : "0" + presetTimes[key].minutes} : {presetTimes[key].seconds > 9 ? presetTimes[key].seconds : "0" + presetTimes[key].seconds}
+                            </span>
+                            <IconButton className="font-bold borderno" label="Add" onclick={() => usePresetTimer(key)}>
+                                <Plus />
+                            </IconButton>
+                        </div>
+                    ))
+                }
+
 
             </div>
         </MaxWidthWrapper>
