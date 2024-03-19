@@ -70,7 +70,7 @@ const PomodoroPage = () => {
         setIsPaused(true);
     }
 
-    function usePresetTimer(preset: string) {
+    function addPresetTimer(preset: string) {
         const timeArray = preset.split('-');
         const [getHours, getMinutes, getSeconds] = timeArray
         setHours(parseInt(getHours));
@@ -142,7 +142,7 @@ const PomodoroPage = () => {
                             <span className='font-bold text-xl'>
                                 {presetTimes[key].hours > 9 ? presetTimes[key].hours : "0" + presetTimes[key].hours} : {presetTimes[key].minutes > 9 ? presetTimes[key].minutes : "0" + presetTimes[key].minutes} : {presetTimes[key].seconds > 9 ? presetTimes[key].seconds : "0" + presetTimes[key].seconds}
                             </span>
-                            <IconButton className="font-bold borderno" label="Add" onclick={() => usePresetTimer(key)}>
+                            <IconButton className="font-bold borderno" label="Add" onclick={() => addPresetTimer(key)}>
                                 <Plus />
                             </IconButton>
                         </div>
