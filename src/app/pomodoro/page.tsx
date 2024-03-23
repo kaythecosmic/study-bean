@@ -78,6 +78,33 @@ const PomodoroPage = () => {
         setSeconds(parseInt(getSeconds));
     }
 
+    function handleFormChange(event: React.ChangeEvent<HTMLInputElement>) {
+        setErrorMessage("");
+        const timeSectionID = event.target.id;
+
+        if (parseInt(event.target.value) <= 59) {
+            if (timeSectionID == "textbox-seconds") {
+                setSeconds(parseInt(event.target.value ? event.target.value : "0"));
+            } else if (timeSectionID == "textbox-minutes") {
+                setMinutes(parseInt(event.target.value ? event.target.value : "0"));
+            } else {
+                setHours(parseInt(event.target.value ? event.target.value : "0"));
+            }
+
+        }
+        else {
+            setErrorMessage("Invalid timer input.");
+            if (event.target.id == "textbox-seconds") {
+                setSeconds(0);
+            } else if (timeSectionID == "textbox-minutes") {
+                setMinutes(0);
+            } else {
+                setHours(0);
+            }
+        }
+    }
+
+
     useEffect(() => {
         var timeLeft = time.hours * 3600 + time.minutes * 60 + time.seconds * 1;
         let setIntervalID = setInterval(() => {
@@ -107,6 +134,7 @@ const PomodoroPage = () => {
     }, [time, isPaused])
 
     return (
+
         <MaxWidthWrapper className="h-[100dvh] w-[80vw] flex flex-col 2xl:flex-row items-center justify-center gap-5">
             <div className='w-full flex flex-col items-center justify-center p-10 md:w-full 2xl:h-2/3 border rounded-md'>
                 <h1 className=' text-4xl mb-10'>Pomodoro Session</h1>
@@ -115,13 +143,13 @@ const PomodoroPage = () => {
                 </div>
 
                 <section className='mx-auto font-bold mt-16 w-1/2 flex flex-row items-center justify-center gap-[15px]'>
-                    <input className='p-3 border rounded-md text-center focus:outline-none font-medium' type="number" name="hours" max={12} min={0} placeholder='HH' id="textbox-hours" onChange={(e) => { setHours(parseInt(e.target.value ? e.target.value : "0")) }} /> :
-                    <input className='p-3 border rounded-md text-center focus:outline-none font-medium' type="number" name="hours" max={59} min={0} placeholder='MM' id="textbox-minutes" onChange={(e) => { setMinutes(parseInt(e.target.value ? e.target.value : "0")) }} /> :
-                    <input className='p-3 border rounded-md text-center focus:outline-none font-medium' type="number" name="hours" max={59} min={0} placeholder='SS' id="textbox-seconds" onChange={(e) => { setSeconds(parseInt(e.target.value ? e.target.value : "0")) }} />
+                    <input className='p-3 border rounded-md text-center focus:outline-none font-medium' type="number" name="hours" max={12} min={0} placeholder='HH' id="textbox-hours" onChange={(e) => { handleFormChange(e) }} /> :
+                    <input className='p-3 border rounded-md text-center focus:outline-none font-medium' type="number" name="hours" max={59} min={0} placeholder='MM' id="textbox-minutes" onChange={(e) => { handleFormChange(e) }} /> :
+                    <input className='p-3 border rounded-md text-center focus:outline-none font-medium' type="number" name="hours" max={59} min={0} placeholder='SS' id="textbox-seconds" onChange={(e) => { handleFormChange(e) }} />
                 </section>
 
                 <section className='mx-auto mt-10 w-1/3 flex justify-center items-center'>
-                    <span className='text-center text-red-700 font-medium'> {errorMessage} </span>
+                    <span className='text-center text- text-red-700 font-medium h-4'> {errorMessage} </span>
                 </section>
 
                 <section className='mx-auto mt-5 w-1/3 flex flex-row items-center justify-evenly gap-[15px]'>
@@ -133,7 +161,7 @@ const PomodoroPage = () => {
                     </IconButton> : <></>}
                 </section>
             </div>
-            
+
             <div className='h-auto w-full flex flex-col items-center justify-start p-5 border rounded-md 2xl:h-2/3 2xl:w-1/3'>
                 <h1 className='text-2xl mb-5 w-full font-bold'>Preset Timers</h1>
 
@@ -149,10 +177,9 @@ const PomodoroPage = () => {
                         </div>
                     ))
                 }
-
-
             </div>
         </MaxWidthWrapper>
+
     )
 }
 
