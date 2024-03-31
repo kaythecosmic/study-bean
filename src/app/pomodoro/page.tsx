@@ -13,9 +13,11 @@ const PomodoroPage = () => {
     }
 
     const presetTimes: { [key: string]: TimeState } = {
-        "00-02-50": { hours: 0, minutes: 2, seconds: 50 },
-        "00-03-20": { hours: 0, minutes: 3, seconds: 20 },
-        "00-00-20": { hours: 0, minutes: 0, seconds: 20 },
+        "00-50-00": { hours: 0, minutes: 50, seconds: 0 },
+        "00-10-00": { hours: 0, minutes: 10, seconds: 0 },
+        "00-01-00": { hours: 0, minutes: 1, seconds: 0 },
+        "00-05-00": { hours: 0, minutes: 5, seconds: 0 },
+        "00-30-00": { hours: 0, minutes: 30, seconds: 0 },
     }
 
     const [isRunning, setIsRunning] = useState<boolean>(false);
@@ -71,11 +73,10 @@ const PomodoroPage = () => {
     }
 
     function addPresetTimer(preset: string) {
-        const timeArray = preset.split('-');
-        const [getHours, getMinutes, getSeconds] = timeArray
-        setHours(parseInt(getHours));
-        setMinutes(parseInt(getMinutes));
-        setSeconds(parseInt(getSeconds));
+        const selectPresetTime = presetTimes[preset]
+        setHours(selectPresetTime.hours);
+        setMinutes(selectPresetTime.minutes);
+        setSeconds(selectPresetTime.seconds);
     }
 
     function handleFormChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -135,10 +136,10 @@ const PomodoroPage = () => {
 
     return (
 
-        <MaxWidthWrapper className="h-[100dvh] w-[80vw] flex flex-col 2xl:flex-row items-center justify-center gap-5">
+        <MaxWidthWrapper className=" mt-5 flex flex-col lg:min-h-screen lg:w-[80vw] 2xl:flex-row items-center justify-center gap-5">
             <div className='w-full flex flex-col items-center justify-center p-10 md:w-full 2xl:h-2/3 border rounded-md'>
-                <h1 className=' text-4xl mb-10'>Pomodoro Session</h1>
-                <div className="text-5xl font-semibold md:text-6xl lg:text-7xl 2xl:text-8xl min-[1640px]:text-9xl">
+                <h1 className='text-2xl font-bold lg:text-4xl mb-10'>Pomodoro Session</h1>
+                <div className="w-full text-center text-5xl font-semibold md:text-6xl lg:text-7xl 2xl:text-8xl min-[1640px]:text-9xl">
                     {hours > 9 ? hours : "0" + hours} : {minutes > 9 ? minutes : "0" + minutes} : {seconds > 9 ? seconds : "0" + seconds}
                 </div>
 
@@ -149,10 +150,10 @@ const PomodoroPage = () => {
                 </section>
 
                 <section className='mx-auto mt-10 w-1/3 flex justify-center items-center'>
-                    <span className='text-center text- text-red-700 font-medium h-4'> {errorMessage} </span>
+                    <span className='text-center text-red-700 font-medium h-4'> {errorMessage} </span>
                 </section>
 
-                <section className='mx-auto mt-5 w-1/3 flex flex-row items-center justify-evenly gap-[15px]'>
+                <section className='mx-auto mt-5 lg:w-1/3 flex flex-row items-center justify-evenly gap-[15px]'>
                     <IconButton label={isPaused ? "Start" : "Pause"} onclick={isPaused ? () => handlePlay() : () => handlePause()}>
                         {isPaused ? <Play /> : <Pause />}
                     </IconButton>
@@ -162,9 +163,9 @@ const PomodoroPage = () => {
                 </section>
             </div>
 
-            <div className='h-auto w-full flex flex-col items-center justify-start p-5 border rounded-md 2xl:h-2/3 2xl:w-1/3'>
-                <h1 className='text-2xl mb-5 w-full font-bold'>Preset Timers</h1>
-
+            {/* Right aside for Preset Timers */}
+            <div className='relative h-auto w-full flex flex-col items-center justify-start p-5 border rounded-md 2xl:h-2/3 2xl:w-1/3 overflow-y-scroll no-scrollbar'>
+                <h1 className='text-2xl mb-5 w-full font-bold sticky z-10 bg-gradient-to-b from-white to-transparent via-white'>Preset Timers</h1>
                 {
                     Object.keys(presetTimes).map((key) => (
                         <div key={key} className='w-full border mt-2 p-2 flex flex-row justify-between items-center rounded-md'>
@@ -179,7 +180,6 @@ const PomodoroPage = () => {
                 }
             </div>
         </MaxWidthWrapper>
-
     )
 }
 
