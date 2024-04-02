@@ -3,7 +3,7 @@ import { Onest } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
-const onest = Onest({ subsets: ["latin"], weight: ['500'] });
+const onest = Onest({ subsets: ["latin"], weight: ['500', '700'] });
 
 export const metadata: Metadata = {
   title: "StudyBean",
@@ -21,7 +21,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-
       <body className={cn("min-h-screen antialiased", onest.className)}>
         {children}
       </body>

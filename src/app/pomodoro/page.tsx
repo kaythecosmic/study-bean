@@ -3,6 +3,7 @@ import IconButton from '@/components/IconButton'
 import MaxWidthWrapper from '@/components/MaxWidthWrapper'
 import React, { useEffect, useState } from 'react'
 import { RotateCcw, Pause, Play, Plus } from 'lucide-react'
+import { useWindowSize } from 'use-window-size-hook';
 
 const PomodoroPage = () => {
 
@@ -11,6 +12,7 @@ const PomodoroPage = () => {
         minutes: number;
         seconds: number;
     }
+    // const [width, setWidth] = useState(document.documentElement.clientWidth)
 
     const presetTimes: { [key: string]: TimeState } = {
         "00-50-00": { hours: 0, minutes: 50, seconds: 0 },
@@ -136,17 +138,17 @@ const PomodoroPage = () => {
 
     return (
 
-        <MaxWidthWrapper className=" mt-5 flex flex-col lg:min-h-screen lg:w-[80vw] 2xl:flex-row items-center justify-center gap-5">
+        <MaxWidthWrapper className="mt-5 lg:mt-0 flex flex-col lg:h-screen lg:w-[80vw] 2xl:flex-row items-center justify-center gap-5">
             <div className='w-full flex flex-col items-center justify-center p-10 md:w-full 2xl:h-2/3 border rounded-md'>
                 <h1 className='text-2xl font-bold lg:text-4xl mb-10'>Pomodoro Session</h1>
-                <div className="w-full text-center text-5xl font-semibold md:text-6xl lg:text-7xl 2xl:text-8xl min-[1640px]:text-9xl">
+                <div className="w-full text-center text-6xl [@media(max-width:400px)]:text-4xl font-semibold md:text-6xl lg:text-7xl 2xl:text-8xl min-[1640px]:text-9xl">
                     {hours > 9 ? hours : "0" + hours} : {minutes > 9 ? minutes : "0" + minutes} : {seconds > 9 ? seconds : "0" + seconds}
                 </div>
 
                 <section className='mx-auto font-bold mt-16 w-1/2 flex flex-row items-center justify-center gap-[15px]'>
-                    <input className='p-3 border rounded-md text-center focus:outline-none font-medium' type="number" name="hours" max={12} min={0} placeholder='HH' id="textbox-hours" onChange={(e) => { handleFormChange(e) }} /> :
-                    <input className='p-3 border rounded-md text-center focus:outline-none font-medium' type="number" name="hours" max={59} min={0} placeholder='MM' id="textbox-minutes" onChange={(e) => { handleFormChange(e) }} /> :
-                    <input className='p-3 border rounded-md text-center focus:outline-none font-medium' type="number" name="hours" max={59} min={0} placeholder='SS' id="textbox-seconds" onChange={(e) => { handleFormChange(e) }} />
+                    <input className='p-3 border rounded-md text-center focus:outline-none font-medium [@media(max-width:400px)]:bg-green-50' type="number" name="hours" max={12} min={0} placeholder='HH' id="textbox-hours" onChange={(e) => { handleFormChange(e) }} /> :
+                    <input className='p-3 border rounded-md text-sm text-center focus:outline-none font-medium [@media(max-width:400px)]:w-1/4' type="number" name="hours" max={59} min={0} placeholder='MM' id="textbox-minutes" onChange={(e) => { handleFormChange(e) }} /> :
+                    <input className='p-3 border rounded-md text-sm text-center focus:outline-none font-medium [@media(max-width:400px)]:w-1/4' type="number" name="hours" max={59} min={0} placeholder='SS' id="textbox-seconds" onChange={(e) => { handleFormChange(e) }} />
                 </section>
 
                 <section className='mx-auto mt-10 w-1/3 flex justify-center items-center'>
