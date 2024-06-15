@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Onest } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import Navbar from "@/components/Navbar";
 
 const onest = Onest({ subsets: ["latin"], weight: ['500', '700'] });
 
@@ -21,7 +22,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn("min-h-screen antialiased", onest.className)}>
+      <body className={cn("antialiased", onest.className)}>
+        <Navbar />
         {children}
       </body>
     </html>
